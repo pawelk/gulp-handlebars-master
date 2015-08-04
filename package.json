@@ -1,0 +1,22 @@
+{
+  "name": "gulp-handlebars-master",
+  "version": "0.0.1",
+  "description": "Compile content page partials using a single master template",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "handlebars",
+    "template",
+    "master",
+    "static"
+  ],
+  "author": "Paweł Knapik",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "through2": "~2.0.0",
+    "gulp-compile-handlebars": "~0.5.0",
+    "gulp-util": "~3.0.6"
+  }
+}
