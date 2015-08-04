@@ -12,9 +12,10 @@ function hbsMaster( masterTemplate, data, options ) {
   if (!masterTemplate) {
     throw new PluginError(PLUGIN_NAME, 'Missing master template!');
   }
-
+  // the master template file
   var template = fs.readFileSync(masterTemplate, 'utf8');
-  var options = opts || {};
+	  options = options || {};
+    /* copy-pasta form gulp-compile-handlebars for compatibility */
 	//Go through a partials object
 	if(options.partials){
 		for(var p in options.partials){
@@ -108,15 +109,21 @@ function hbsMaster( masterTemplate, data, options ) {
       }
       if (file.isBuffer()) {
 	  try {
+	      // get contents of partial template file
 	      var fileContensts = file.contents.toString();
+	      // get the file name without extension
 	      var fileName = file.relative.replace(/\.[^\.]+$/,'');
+	      // compile a handlebars template from partial 
 	      var content = Handlebars.compile(  file.contents.toString(), options );
+	      // render the partial
 	      content = content( data );
+	      // set reference to current page data as _page, e.g. to show {{ _page.title }}
 	      data['_page'] = data[ fileName ];
+	      // set compiled partial html to be rendered as  {{{ content }}}
 	      data['content'] = content;
-
+	      // compile the master template
 	      var tpl = Handlebars.compile( template, options );
-	      
+	      // render master to file
 	      file.contents = new Buffer( tpl(data) );
 	  } catch (err) {
 	      this.emit('error', new gutil.PluginError('gulp-handlebars-master', err));
