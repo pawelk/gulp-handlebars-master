@@ -1,7 +1,7 @@
 var through = require('through2');
 var gutil = require('gulp-util');
 var PluginError = gutil.PluginError;
-var handlebars = require('gulp-compile-handlebars');
+var Handlebars = require('handlebars');
 var fs = require('fs');    
     
 // consts
@@ -14,26 +14,115 @@ function hbsMaster( masterTemplate, data, options ) {
   }
 
   var template = fs.readFileSync(masterTemplate, 'utf8');
+  var options = opts || {};
+	//Go through a partials object
+	if(options.partials){
+		for(var p in options.partials){
+			Handlebars.registerPartial(p, options.partials[p]);
+		}
+	}
+	//Go through a helpers object
+	if(options.helpers){
+		for(var h in options.helpers){
+			Handlebars.registerHelper(h, options.helpers[h]);
+		}
+	}
+
+	// Do not search for more than 10 nestings
+	var maxDepth = 10;
+	// Process only files with given extension names
+	var allowedExtensions = ['hb', 'hbs', 'handlebars', 'html'];
+
+	var isDir = function (filename) {
+		var stats = fs.statSync(filename);
+		return stats && stats.isDirectory();
+	};
+
+	var isHandlebars = function (filename) {
+		return allowedExtensions.indexOf(filename.split('.').pop()) !== -1;
+	};
+
+	var partialName = function (filename, base) {
+		var name = filename.substr(0, filename.lastIndexOf('.'));
+		name = name.replace(new RegExp('^' + base + '\\/'), '');
+		return name;
+	};
+
+	var registerPartial = function (filename, base) {
+		if (!isHandlebars(filename)) { return; }
+		var name = partialName(filename, base);
+		var template = fs.readFileSync(filename, 'utf8');
+		Handlebars.registerPartial(name, template);
+	};
+
+	var registerPartials = function (dir, base, depth) {
+		if (depth > maxDepth) { return; }
+		base = base || dir;
+		fs.readdirSync(dir).forEach(function (basename) {
+			var filename = dir + '/' + basename;
+			if (isDir(filename)) {
+				registerPartials(filename, base);
+			} else {
+				registerPartial(filename, base);
+			}
+		});
+	};
+
+	// Go through a partials directory array
+	if(options.batch){
+		// Allow single string
+		if(typeof options.batch === 'string') options.batch = [options.batch];
+
+		options.batch.forEach(function (dir) {
+			registerPartials(dir, dir, 0);
+		});
+	}
+
+	/**
+	 * For handling unknown partials
+	 * @method mockPartials
+	 * @param  {string}     content Contents of handlebars file
+	 */
+	var mockPartials = function(content){
+		var regex = /{{> (.*)}}/gim, match, partial;
+		if(content.match(regex)){
+			while((match = regex.exec(content)) !== null){
+				partial = match[1];
+				//Only register an empty partial if the partial has not already been registered
+				if(!Handlebars.partials.hasOwnProperty(partial)){
+					Handlebars.registerPartial(partial, '');
+				}
+			}
+		}
+	};
     
   // creating a stream through which each file will pass
   var stream = through.obj(function(file, enc, cb) {
-    if (file.isStream()) {
-      this.emit('error', new PluginError(PLUGIN_NAME, 'Streams are not supported!'));
-      return cb();
-    }
+      if (file.isNull()) {
+	  this.push(file);
+	  return cb();
+      }
+      if (file.isStream()) {
+	  this.emit('error', new gutil.PluginError('gulp-handlebars-master', 'Streaming not supported'));
+	  return cb();
+      }
+      if (file.isBuffer()) {
+	  try {
+	      var fileContensts = file.contents.toString();
+	      var fileName = file.relative.replace(/\.[^\.]+$/,'');
+	      var content = Handlebars.compile(  file.contents.toString(), options );
+	      content = content( data );
+	      data['_page'] = data[ fileName ];
+	      data['content'] = content;
 
-    if (file.isBuffer()) {
-	var fileContensts = file.contents.toString();
-	var fileName = file.relative.replace(/\.[^\.]+$/,'');
-	var content = handlebars.Handlebars.compile(  file.contents.toString(), options );
-	    content = content( data );
-	data['_page'] = data[ fileName ];
-	data['content'] = content;
+	      var tpl = Handlebars.compile( template, options );
+	      
+	      file.contents = new Buffer( tpl(data) );
+	  } catch (err) {
+	      this.emit('error', new gutil.PluginError('gulp-handlebars-master', err));
+	  }
+      }
 
-	var tpl = handlebars.Handlebars.compile( template, options );
-	
-	file.contents = new Buffer( tpl(data) );
-    }
 
     // make sure the file goes through the next gulp plugin
     this.push(file);

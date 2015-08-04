@@ -1,6 +1,6 @@
 {
   "name": "gulp-handlebars-master",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Compile content page partials using a single master template",
   "main": "index.js",
   "scripts": {
@@ -15,8 +15,8 @@
   "author": "Paweł Knapik",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "through2": "~2.0.0",
-    "gulp-compile-handlebars": "~0.5.0",
-    "gulp-util": "~3.0.6"
+    "gulp-util": "~3.0.6",
+    "handlebars": "^3.0.3",
+    "through2": "~2.0.0"
   }
 }
