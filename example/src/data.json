@@ -1,0 +1,20 @@
+{
+    "index" : {
+        "title" : "Home page",
+        "nav_index" : "active",
+	"meta" : {
+	    "description" : "example page index",
+	    "og:image" : "/img/logo.png"
+	}
+    },
+    "about" : {
+        "title" : "About us",
+        "nav_about" : "active",
+	"intro" : "Meet our team!",
+	"people" : {
+	    "Pawel" : "CEO",
+	    "Tom" : "The developer",
+	    "Mike" : "Just Mike"
+	}
+    }
+}

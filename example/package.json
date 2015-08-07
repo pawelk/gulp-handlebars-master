@@ -1,0 +1,21 @@
+{
+  "name": "gulp-handlebars-master-example",
+  "version": "0.0.3",
+  "description": "Compiling multiple static pages using single master template",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "handlebars",
+    "master",
+    "example"
+  ],
+  "author": "Pawel Knapik",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-handlebars-master": "0.0.3",
+    "gulp-rename": "^1.2.2"
+  }
+}

@@ -1,0 +1,6 @@
+<head>
+    <title>Handlebars Master Template - {{ _page.title }}</title>
+    {{#each _page.meta}}
+    <meta name="{{ @key }}" content="{{ this }}" />
+    {{/each}}
+</head>

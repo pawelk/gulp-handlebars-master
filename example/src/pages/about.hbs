@@ -1,0 +1,14 @@
+<p>This is about page</p>
+
+
+{{#with about}}
+	
+	<p>{{ intro }}</p>
+	<ul>
+	{{#each people }}
+		<li><strong>{{ @key }}</strong>: {{ this }}
+	{{/each }}
+	</ul>
+{{/with}}
+
+Go to <a href="index.html">{{ index.title }}</a>

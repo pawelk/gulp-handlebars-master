@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+	{{> head }}
+  
+<body>
+
+<header>
+  <h1>Shared header - {{ _page.title }}</h1>
+  <nav>
+    <ul>
+      <li class="{{ _page.nav_index }}">
+        <a href="index.html">{{ index.title }}</a>
+     </li>
+     <li class="{{ _page.nav_about }}">
+       <a href="about.html">{{ about.title }}</a>
+     </li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  {{{ content }}}
+</main>
+
+<footer>
+  Shared footer
+</footer>
+</body>
+</html>
