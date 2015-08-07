@@ -115,3 +115,10 @@ Compiling using gulp
     });
 
 The first argument to the `.pipe( hbsmaster('./src/master.hbs', templatedata, {}))` is location of the master template, 2nd and 3rd arguments are `data` and `options` compatible with the arguments you can pass to  [gulp-compile-handlebars](https://www.npmjs.com/package/gulp-compile-handlebars)
+
+### Check out (a bit more advanced) example:
+
+    $ git clone https://github.com/pawelk/gulp-handlebars-master.git ./hbs-master
+	$ cd hbs-master/example
+	$ npm install
+	$ gulp
