@@ -1,8 +1,12 @@
 {
   "name": "gulp-handlebars-master",
   "version": "0.0.2",
-  "description": "Compile content page partials using a single master template",
+  "description": "Feed multiple partials (content pages) to a single master template",
   "main": "index.js",
+  "repository" : { 
+      "type" : "git",
+      "url" : "https://github.com/pawelk/gulp-handlebars-master.git"
+  }
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
