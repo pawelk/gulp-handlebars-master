@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var hbsmaster = require('gulp-handlebars-master');
+var hbsmaster = require('../index.js');
 var rename = require('gulp-rename');
 var fs = require('fs');
 

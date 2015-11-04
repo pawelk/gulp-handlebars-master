@@ -1,12 +1,16 @@
 <p>This is about page</p>
 
+{{#*inline "person" }}
+<li><strong>{{ @key }}</strong>: {{ this }}
+{{/inline }}
+
 
 {{#with about}}
 	
 	<p>{{ intro }}</p>
 	<ul>
 	{{#each people }}
-		<li><strong>{{ @key }}</strong>: {{ this }}
+		{{> person this }}
 	{{/each }}
 	</ul>
 {{/with}}
