@@ -19,8 +19,8 @@
   "author": "Paweł Knapik",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "gulp-util": "~3.0.6",
-    "handlebars": "^3.0.3",
-    "through2": "~2.0.0"
+    "gulp-util": "~3.0",
+    "handlebars": "~4.0",
+    "through2": "~2.0"
   }
 }

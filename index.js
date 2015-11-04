@@ -96,7 +96,7 @@ function hbsMaster( masterTemplate, data, options ) {
 			}
 		}
 	};
-    
+
   // creating a stream through which each file will pass
   var stream = through.obj(function(file, enc, cb) {
       if (file.isNull()) {
