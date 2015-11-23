@@ -143,4 +143,6 @@ function hbsMaster( masterTemplate, data, options ) {
 };
 
 // exporting the plugin main function
+hbsMaster.Handlebars = Handlebars;
+// exporting the plugin main function
 module.exports = hbsMaster;

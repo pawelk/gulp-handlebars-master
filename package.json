@@ -1,6 +1,6 @@
 {
   "name": "gulp-handlebars-master",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Feed multiple partials (content pages) to a single master template",
   "main": "index.js",
   "repository" : { 
